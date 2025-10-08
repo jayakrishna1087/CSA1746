@@ -1,0 +1,76 @@
+# Tic Tac Toe game
+
+# Initialize the board
+board = [' ' for _ in range(9)]
+
+# Function to print the board
+def print_board():
+    row1 = '|'.join(board[0:3])
+    row2 = '|'.join(board[3:6])
+    row3 = '|'.join(board[6:9])
+    print("\n" + row1)
+    print('-' * 5)
+    print(row2)
+    print('-' * 5)
+    print(row3 + "\n")
+
+# Function for player's move
+def player_move(icon):
+    if icon == 'X':
+        player = 1
+    else:
+        player = 2
+
+    print(f"Player {player}'s turn ({icon})")
+
+    while True:
+        try:
+            choice = int(input("Enter your move (1-9): ").strip())
+            if choice < 1 or choice > 9:
+                print("Please enter a number between 1 and 9.")
+            elif board[choice - 1] == ' ':
+                board[choice - 1] = icon
+                break
+            else:
+                print("That space is already taken! Try again.")
+        except ValueError:
+            print("Invalid input! Enter a number between 1 and 9.")
+
+# Function to check victory
+def is_victory(icon):
+    win_conditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
+        [0, 4, 8], [2, 4, 6]              # Diagonals
+    ]
+    for condition in win_conditions:
+        if all(board[i] == icon for i in condition):
+            return True
+    return False
+
+# Function to check draw
+def is_draw():
+    return ' ' not in board
+
+# Main game loop
+while True:
+    print_board()
+    player_move('X')
+    if is_victory('X'):
+        print_board()
+        print("🎉 Player X Wins! Congratulations!")
+        break
+    elif is_draw():
+        print_board()
+        print("🤝 It's a Draw!")
+        break
+
+    print_board()
+    player_move('O')
+    if is_victory('O'):
+        print_board()
+        print("🎉 Player O Wins! Congratulations!")
+        break
+    elif is_draw():
+        print_board()
+
