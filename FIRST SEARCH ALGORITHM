@@ -1,0 +1,30 @@
+from queue import PriorityQueue
+
+# Number of vertices
+v = 14
+
+# Graph represented as adjacency list
+graph = [[] for i in range(v)]
+
+# Function to add edges to the graph
+def addedge(x, y, cost):
+    graph[x].append((y, cost))
+    graph[y].append((x, cost))  # Since this is an undirected graph
+
+# Function to implement Best-First Search
+def best_first_search(actual_Src, target, n):
+    visited = [False] * n
+    pq = PriorityQueue()
+    pq.put((0, actual_Src))
+    visited[actual_Src] = True
+
+    while not pq.empty():
+        u = pq.get()[1]
+        # Displaying the path having lowest cost
+        print(u, end=" ")
+        if u == target:
+            break
+
+        for v, c in graph[u]:
+            if not visited[v]:
+                visited[v] = True
