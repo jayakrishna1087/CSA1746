@@ -1,0 +1,78 @@
+import heapq
+
+def a_star(start, goal, neighbors_fn, heuristic_fn):
+    """
+    Implements the A* search algorithm.
+
+    Arguments:
+        start: The starting node.
+        goal: The goal node.
+        neighbors_fn: A function that takes a node and returns its neighbors.
+        heuristic_fn: A function that estimates the distance from a node to the goal.
+
+    Returns:
+        A tuple (path, total_cost)
+        - path: List of nodes representing the shortest path from start to goal
+        - total_cost: The total cost of the path
+    """
+
+    frontier = []  # Priority queue (min-heap)
+    heapq.heappush(frontier, (0, start))
+
+    came_from = {start: None}   # To reconstruct the path
+    cost_so_far = {start: 0}    # Cost from start to current node
+
+    while frontier:
+        _, current = heapq.heappop(frontier)
+
+        # If goal reached, stop searching
+        if current == goal:
+            break
+
+        # Explore neighbors
+        for neighbor in neighbors_fn(current):
+            new_cost = cost_so_far[current] + 1  # Assuming each edge cost = 1
+            if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
+                cost_so_far[neighbor] = new_cost
+                priority = new_cost + heuristic_fn(neighbor, goal)
+                heapq.heappush(frontier, (priority, neighbor))
+                came_from[neighbor] = current
+
+    # Reconstruct path
+    path = [goal]
+    current = goal
+    while current != start:
+        current = came_from[current]
+        path.append(current)
+    path.reverse()
+
+    return path, cost_so_far[goal]
+
+
+# ---------------- Example Usage ----------------
+
+# Example graph (grid representation)
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+# Neighbors function
+def neighbors_fn(node):
+    return graph[node]
+
+# Heuristic function (for simplicity, returns 0 for all — behaves like Dijkstra)
+def heuristic_fn(node, goal):
+    return 0 if node == goal else 1
+
+# Run A* Algorithm
+start_node = 'A'
+goal_node = 'F'
+path, cost = a_star(start_node, goal_node, neighbors_fn, heuristic_fn)
+
+print("Shortest Path:", " -> ".join(path))
+print("Total Cost:", cost)
