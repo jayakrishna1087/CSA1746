@@ -1,0 +1,35 @@
+# Import necessary libraries
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import SGD
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.utils import to_categorical
+
+# Load the iris dataset
+iris = load_iris()
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    iris.data, iris.target, test_size=0.3, random_state=42
+)
+
+# Convert target values to one-hot encoded format
+y_train = to_categorical(y_train, num_classes=3)
+y_test = to_categorical(y_test, num_classes=3)
+
+# Create a feedforward neural network
+model = Sequential()
+model.add(Dense(10, input_dim=4, activation='relu'))
+model.add(Dense(3, activation='softmax'))
+
+# Compile the model
+sgd = SGD(learning_rate=0.01)  # updated parameter name
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+
+# Train the model on the training set
+model.fit(X_train, y_train, epochs=50, batch_size=10, verbose=1)
+
+# Evaluate the model on the testing set
+scores = model.evaluate(X_test, y_test, verbose=0)
+print("Accuracy: %.2f%%" % (scores[1] * 100))
