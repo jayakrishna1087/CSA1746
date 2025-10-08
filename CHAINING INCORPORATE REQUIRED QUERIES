@@ -1,0 +1,16 @@
+% Facts and rules
+has_wings.
+can_fly :- has_wings.
+cannot_fly.
+
+bird(penguin) :- cannot_fly.
+bird(eagle) :- can_fly.
+
+% Backward chaining inference
+infer(X) :- bird(X).        % General inference: X is a bird
+infer(X) :- can_fly, X = eagle.     % Specific inference for eagle
+infer(X) :- cannot_fly, X = penguin. % Specific inference for penguin
+
+% Example queries:
+% ?- infer(crow).      % Checks if crow can be inferred as a bird
+% ?- infer(X).         % Finds all X that can be inferred as birds
