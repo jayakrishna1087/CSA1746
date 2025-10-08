@@ -1,0 +1,52 @@
+implement main
+open core, string
+
+clauses
+run():-
+    console::init(),
+    go(),
+    succeed().
+
+domains
+disease, indication = symbol
+Patient, name = string
+
+predicates
+hypothesis(string, disease)
+symptom(name, indication)
+response(char)
+go
+
+clauses
+go :-
+    write("What is the patient's name? "),
+    readln(Patient),
+    (   hypothesis(Patient, Disease)
+    ->  write(Patient, " probably has ", Disease, "."), nl
+    ;   write("Sorry, I don't seem to be able to diagnose the disease."), nl
+    ).
+
+% Symptom queries
+symptom(Patient, fever) :- ask(Patient, "fever").
+symptom(Patient, rash) :- ask(Patient, "rash").
+symptom(Patient, headache) :- ask(Patient, "headache").
+symptom(Patient, runny_nose) :- ask(Patient, "runny nose").
+symptom(Patient, conjunctivitis) :- ask(Patient, "conjunctivitis").
+symptom(Patient, cough) :- ask(Patient, "cough").
+symptom(Patient, body_ache) :- ask(Patient, "body ache").
+symptom(Patient, chills) :- ask(Patient, "chills").
+symptom(Patient, sore_throat) :- ask(Patient, "sore throat").
+symptom(Patient, sneezing) :- ask(Patient, "sneezing").
+symptom(Patient, swollen_glands) :- ask(Patient, "swollen glands").
+
+% Disease rules
+hypothesis(Patient, measles) :-
+    symptom(Patient, fever),
+    symptom(Patient, cough),
+    symptom(Patient, conjunctivitis),
+    symptom(Patient, runny_nose),
+    symptom(Patient, rash).
+
+hypothesis(Patient, german_measles) :-
+    symptom(Patient, fever),
+    symptom(
