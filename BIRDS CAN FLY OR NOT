@@ -1,0 +1,31 @@
+% Facts: birds and their flying abilities
+bird(ostrich, cannot_fly).
+bird(penguin, cannot_fly).
+bird(kiwi, cannot_fly).
+bird(eagle, can_fly).
+bird(pigeon, can_fly).
+bird(sparrow, can_fly).
+
+% Rule: check if a bird can fly
+can_fly(Bird) :- 
+    bird(Bird, can_fly).
+
+% Rule: check if a bird cannot fly
+cannot_fly(Bird) :-
+    bird(Bird, cannot_fly).
+
+% Rule: list all birds that can fly
+list_birds_can_fly :-
+    write('Birds that can fly: '), nl,
+    bird(Bird, can_fly),
+    write('- '), write(Bird), nl,
+    fail.  % fail forces backtracking to list all birds
+list_birds_can_fly.  % succeed after listing all
+
+% Rule: list all birds that cannot fly
+list_birds_cannot_fly :-
+    write('Birds that cannot fly: '), nl,
+    bird(Bird, cannot_fly),
+    write('- '), write(Bird), nl,
+    fail.  % fail forces backtracking to list all birds
+list_birds_cannot_fly.  % succeed after listing all
