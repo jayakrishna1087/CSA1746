@@ -1,0 +1,29 @@
+# Define the graph as an adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+
+# Define the DFS function
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()  # Create a set to store visited nodes
+
+    visited.add(start)  # Mark the current node as visited
+    print(start, end=" ")  # Print the visited node
+
+    # Visit all the unvisited neighbors recursively
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+
+    return visited
+
+# Call the DFS function with starting node 'A'
+print("DFS Traversal Order:")
+dfs(graph, 'A')
+print()  # For clean output
