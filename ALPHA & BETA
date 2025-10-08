@@ -1,0 +1,13 @@
+def evaluate(state):
+    """
+    Returns a numeric score evaluating how good the state is for the current player.
+    Positive means the current player is winning, negative means losing.
+    The exact logic depends on the specific game's rules.
+    """
+    # Example for tic-tac-toe: +1 for win, -1 for loss, 0 for draw/ongoing
+    if has_won(state, "X"):
+        return 1
+    elif has_won(state, "O"):
+        return -1
+    else:
+        return 0
