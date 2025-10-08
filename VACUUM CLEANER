@@ -1,0 +1,50 @@
+# Vacuum Cleaner Problem in Python
+
+def vacuum_cleaner():
+    # Input the initial states
+    state = {'A': input("Enter status of Room A (Clean/Dirty): ").strip().lower(),
+             'B': input("Enter status of Room B (Clean/Dirty): ").strip().lower()}
+    
+    # Input the initial position of the vacuum
+    location = input("Enter initial location of Vacuum (A/B): ").strip().upper()
+    
+    # Display initial state
+    print("\nInitial State:")
+    print(f"Location: {location}, Room A: {state['A']}, Room B: {state['B']}\n")
+
+    # Perform actions based on location and room status
+    cost = 0
+
+    # Function to clean the current room
+    def clean_room(room):
+        nonlocal cost
+        if state[room] == 'dirty':
+            print(f"Room {room} is Dirty. Cleaning now...")
+            state[room] = 'clean'
+            cost += 1  # Cleaning cost
+            print(f"Room {room} has been cleaned.\n")
+        else:
+            print(f"Room {room} is already clean.\n")
+
+    # Cleaning process
+    if location == 'A':
+        clean_room('A')
+        print("Moving to Room B...\n")
+        cost += 1  # Movement cost
+        clean_room('B')
+    elif location == 'B':
+        clean_room('B')
+        print("Moving to Room A...\n")
+        cost += 1  # Movement cost
+        clean_room('A')
+    else:
+        print("Invalid location entered!")
+
+    # Display final state and performance
+    print("Final State:")
+    print(f"Room A: {state['A']}, Room B: {state['B']}")
+    print(f"Performance Measure: {cost} actions\n")
+
+
+# Run the program
+vacuum_cleaner()
